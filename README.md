@@ -57,8 +57,8 @@ config/
 
 ### Langkah-langkah:
 ```bash
-git clone https://github.com/shiftech-my-id/sipontren.git
-cd sipontren
+git clone https://github.com/shiftech-my-id/assunnah-sipontren.git
+cd assunnah-sipontren
 
 # Install backend
 composer install
