@@ -26,6 +26,7 @@ SiPontren dikembangkan dalam bentuk **monolith modular**, artinya:
 - Setiap domain (akademik, pondok, keuangan) dipisah dalam struktur modul
 
 ### Struktur Direktori
+```bash
 app/
 └── Modules/
     ├── Akademik/
@@ -45,7 +46,7 @@ routes/
     └── keuangan.php
 config/
 └── instansi.php
-
+```
 
 ## 🚀 Instalasi Lokal
 ### Persyaratan:
