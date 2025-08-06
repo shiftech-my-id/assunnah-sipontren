@@ -76,7 +76,6 @@ npm run dev
 ```
 
 ## 👥 Role & Akses
-
 Admin: Semua modul
 Guru: Akademik, Pondok
 Santri: Dashboard, Hafalan
