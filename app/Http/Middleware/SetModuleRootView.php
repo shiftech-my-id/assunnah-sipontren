@@ -12,9 +12,9 @@ class SetModuleRootView
     {
         $firstSegment = strtolower($request->segment(1) ?? 'app');
 
-        $viewFile = resource_path("views/modules/{$firstSegment}.blade.php");
+        $viewFile = resource_path("views/{$firstSegment}.blade.php");
         if (file_exists($viewFile)) {
-            Inertia::setRootView("modules.{$firstSegment}");
+            $request->attributes->set('root_view', $firstSegment);
             Inertia::share('currentModule', $firstSegment);
         } else {
             Inertia::share('currentModule', 'app');

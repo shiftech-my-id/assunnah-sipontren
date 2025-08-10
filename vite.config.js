@@ -36,6 +36,7 @@ export default defineConfig({
         "resources/css/app.css",
         "resources/js/app.js",
         'resources/js/modules/authinternal/app.js',
+        'resources/js/modules/staffportal/app.js',
         'resources/js/modules/ppdb/app.js',
       ],
       refresh: true,

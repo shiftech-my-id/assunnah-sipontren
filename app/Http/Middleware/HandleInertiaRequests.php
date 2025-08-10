@@ -37,7 +37,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = $request->user();
+        // $user = $request->user(); // ganti jadi dummy user dulu dong!
+        $user = (object)[
+            'id' => 1,
+            'name' => 'Dummy User',
+            'username' => 'dummy',
+            'email' => 'dummy@example.com',
+            'role' => 'admin',
+            // tambahkan properti lain sesuai kebutuhan
+        ];
         return [
             ...parent::share($request),
             'auth' => [

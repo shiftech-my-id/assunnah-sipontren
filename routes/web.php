@@ -32,6 +32,8 @@ Route::middleware(NonAuthenticated::class)->group(function () {
     // });
 });
 
+Route::get('/')->name('dummy-route');
+
 Route::middleware([Auth::class])->group(function () {
     // Route::match(['get', 'post'], 'admin/auth/logout', [AuthController::class, 'logout'])->name('admin.auth.logout');
 

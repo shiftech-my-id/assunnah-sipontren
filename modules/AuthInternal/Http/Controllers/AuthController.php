@@ -56,7 +56,7 @@ class AuthController extends Controller
             $user->setLastLogin();
             $user->setLastActivity('Login');
             $request->session()->regenerate();
-            return redirect(route('portal-internal.dashboard'));
+            return redirect(route('staff-portal.dashboard'));
         }
 
         return redirect()->back()->withInput()->withErrors($validator);

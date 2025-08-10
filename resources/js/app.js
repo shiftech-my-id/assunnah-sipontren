@@ -17,7 +17,7 @@ import MyLink from "@/components/MyLink.vue";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/id'; // Import the Indonesian locale
-import i18n from './i18n';
+//import i18n from './i18n';
 import GlobalPlugin from '@/plugins';
 
 
@@ -42,7 +42,7 @@ createInertiaApp({
           iconSet: 'material-symbols-outlined',
         }
       })
-      .use(i18n)
+      // .use(i18n)
       .component('i-head', Head)
       .component('i-link', Link)
       .component('my-link', MyLink)

@@ -9,8 +9,6 @@ let form = useForm({
   remember: true,
 });
 
-alert("found!");
-
 const submit = () =>
   handleSubmit({ form, url: route("auth-internal.auth.login") });
 const showPassword = ref(false);
