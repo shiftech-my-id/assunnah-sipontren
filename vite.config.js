@@ -32,7 +32,12 @@ export default defineConfig({
       sassVariables: "/resources/css/quasar-variables.sass",
     }),
     laravel({
-      input: ["resources/css/app.css", "resources/js/app.js"],
+      input: [
+        "resources/css/app.css",
+        "resources/js/app.js",
+        'resources/js/modules/authinternal/app.js',
+        'resources/js/modules/ppdb/app.js',
+      ],
       refresh: true,
     }),
   ],

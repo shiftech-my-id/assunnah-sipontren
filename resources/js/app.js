@@ -20,6 +20,7 @@ import 'dayjs/locale/id'; // Import the Indonesian locale
 import i18n from './i18n';
 import GlobalPlugin from '@/plugins';
 
+
 dayjs.extend(relativeTime)
 // Set Indonesian as the global locale
 dayjs.locale('id');

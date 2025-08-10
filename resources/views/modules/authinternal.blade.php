@@ -27,7 +27,7 @@
     @endif
   </script>
   @routes
-  @vite(['resources/js/app.js', 'resources/css/app.css'])
+  @vite(['resources/js/modules/authinternal/app.js', 'resources/css/app.css'])
 
   @inertiaHead
 </head>

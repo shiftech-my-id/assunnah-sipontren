@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Modules\AuthInternal\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         if ($request->getMethod() === 'GET') {
-            return inertia('admin/auth/Login');
+            return inertia('auth/Login');
         }
 
         // kode dibawah ini untuk handle post
@@ -56,7 +56,7 @@ class AuthController extends Controller
             $user->setLastLogin();
             $user->setLastActivity('Login');
             $request->session()->regenerate();
-            return redirect(route('admin.dashboard'));
+            return redirect(route('portal-internal.dashboard'));
         }
 
         return redirect()->back()->withInput()->withErrors($validator);
@@ -65,6 +65,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $this->_logout($request);
-        return redirect('/')->with('success', 'Anda telah logout.');
+        return redirect(route('auth-internal.auth.login'))->with('success', 'Anda telah logout.');
     }
 }

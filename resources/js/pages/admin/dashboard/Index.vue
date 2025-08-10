@@ -1,15 +1,14 @@
 <script setup>
-import CurrentStatCards from "./cards/CurrentStatCards.vue";
-import StatCards from "./cards/StatCards.vue";
-import ChartCard from "./cards/ChartCard.vue";
-import RecentInteractionsCard from "./cards/RecentInteractionsCard.vue";
-import RecentClosingsCard from "./cards/RecentClosingsCard.vue";
-import RecentCustomersCard from "./cards/RecentCustomersCard.vue";
 import { router, usePage } from "@inertiajs/vue3";
 
 import { reactive, ref } from "vue";
-import { create_month_options, current_month, current_quarter, current_year, getQueryParams } from "@/helpers/utils";
-import BsTargetCard from "./cards/BsTargetCard.vue";
+import {
+  create_month_options,
+  current_month,
+  current_year,
+  getQueryParams,
+} from "@/helpers/utils";
+
 import { usePageStorage } from "@/composables/usePageStorage";
 
 const query = getQueryParams();
@@ -34,7 +33,6 @@ const months = create_month_options();
 const onFilterChange = () => {
   router.visit(route("admin.dashboard", filter));
 };
-
 </script>
 
 <template>
@@ -81,7 +79,7 @@ const onFilterChange = () => {
       </q-toolbar>
     </template>
     <div class="q-pa-sm" v-if="$page.props.auth.user.role === 'bs'">
-      <BsTargetCard />
+      <!-- <BsTargetCard /> -->
     </div>
     <div class="q-pa-sm" v-if="$page.props.auth.user.role === 'admin'">
       <div>
