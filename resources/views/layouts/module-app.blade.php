@@ -21,6 +21,8 @@
     window.CONFIG.APP_VERSION = {{ config('app.version', 0x010000) }};
     window.CONFIG.APP_VERSION_STR = "{{ config('app.version_str', '1.0.0') }}";
     window.CONSTANTS = <?= json_encode([]) ?>;
+    window.CONFIG.MODULE_NAME = "{{ $MODULE_NAME }}";
+    window.CONFIG.MODULE_DISPLAY_NAME = "{{ $MODULE_DISPLAY_NAME }}";
     @if (!!env('APP_DEMO'))
       window.CONFIG.APP_DEMO = 1;
     @endif

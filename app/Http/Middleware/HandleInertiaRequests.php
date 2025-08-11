@@ -20,7 +20,9 @@ class HandleInertiaRequests extends Middleware
 
     public function rootView(Request $request)
     {
-        return $request->attributes->get('root_view', $this->rootView);
+        $module_root_view = $request->attributes->get('module_root_view', null);
+        if (!$module_root_view) return $this->rootView;
+        return "modules/" . $module_root_view . '/app';
     }
 
     /**

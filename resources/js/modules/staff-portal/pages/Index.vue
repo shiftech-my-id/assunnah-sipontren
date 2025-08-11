@@ -1,6 +1,6 @@
 <script setup>
 const apps = [
-  { label: "PPDB", icon: "school", url: route("dummy-route") },
+  { label: "PPDB", icon: "school", url: route("ppdb.index") },
   { label: "System", icon: "settings", url: "dummy-route" },
   { label: "Akademik", icon: "menu_book", url: "dummy-route" },
   { label: "Kesiswaan", icon: "group", url: "dummy-route" },
@@ -17,7 +17,7 @@ const apps = [
           Halo, {{ $page.props.auth.user.name }}
         </div>
         <div class="row q-col-gutter-md justify-center">
-          <my-link
+          <a
             v-for="app in apps"
             :key="app.label"
             :href="app.url"
@@ -25,7 +25,7 @@ const apps = [
           >
             <q-icon :name="app.icon" size="32px" class="q-mb-sm" />
             <div class="text-subtitle2">{{ app.label }}</div>
-          </my-link>
+          </a>
         </div>
       </div>
     </q-page>

@@ -10,16 +10,14 @@ use Illuminate\Support\Facades\DB;
 class User extends Authenticatable
 {
     public const Role_Admin = 'admin';
-    public const Role_BS = 'bs';
-    public const Role_Agronomist = 'agronomist';
-    public const Role_ASM = 'asm';
+    public const Role_Teacher = 'teacher';
+    public const Role_HeadMaster = 'headmaster';
 
     // Display role di hardcode saja, tidak diambil dari translations
     public const Roles = [
-        self::Role_BS => 'BS',
-        self::Role_Agronomist => 'Agronomis',
-        self::Role_ASM => 'ASM',
         self::Role_Admin => 'Administrator',
+        self::Role_Teacher => 'Guru',
+        self::Role_HeadMaster => 'Kepala Sekolah',
     ];
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
