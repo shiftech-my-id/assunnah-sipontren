@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\IndexController;
 use App\Http\Middleware\Auth;
 use App\Http\Middleware\NonAuthenticated;
 use Illuminate\Support\Facades\Artisan;
@@ -32,7 +32,7 @@ Route::middleware(NonAuthenticated::class)->group(function () {
     // });
 });
 
-Route::get('/')->name('dummy-route');
+Route::get('/', [IndexController::class, 'index'])->name('dummy-route');
 
 Route::middleware([Auth::class])->group(function () {
     // Route::match(['get', 'post'], 'admin/auth/logout', [AuthController::class, 'logout'])->name('admin.auth.logout');

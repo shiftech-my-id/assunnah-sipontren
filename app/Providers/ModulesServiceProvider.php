@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
 
 class ModulesServiceProvider extends ServiceProvider
 {
@@ -13,23 +12,27 @@ class ModulesServiceProvider extends ServiceProvider
     {
         $modulesPath = base_path('modules');
 
-        // Scan semua folder modul
         foreach (File::directories($modulesPath) as $modulePath) {
             $moduleName = basename($modulePath);
+
+            // Convert CamelCase → kebab-case
+            $modulePrefix = strtolower(
+                preg_replace('/([a-z])([A-Z])/', '$1-$2', $moduleName)
+            );
 
             // Web Routes
             $webRouteFile = $modulePath . '/Routes/web.php';
             if (File::exists($webRouteFile)) {
                 Route::middleware('web')
-                    ->prefix(strtolower($moduleName))
+                    ->prefix($modulePrefix)
                     ->group($webRouteFile);
             }
 
             // API Routes
             $apiRouteFile = $modulePath . '/Routes/api.php';
             if (File::exists($apiRouteFile)) {
-                Route::middleware('api')
-                    ->prefix('api/' . strtolower($moduleName))
+                Route::prefix("api/{$modulePrefix}")
+                    ->middleware('api')
                     ->group($apiRouteFile);
             }
         }

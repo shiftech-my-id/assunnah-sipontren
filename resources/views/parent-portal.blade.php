@@ -24,15 +24,27 @@
     @if (!!env('APP_DEMO'))
       window.CONFIG.APP_DEMO = 1
     @endif
+    // Ziggy - Filter sesuai modul
+    @php
+      use Tighten\Ziggy\Ziggy;
+
+      $ziggy = new Ziggy();
+
+      $filteredRoutes = collect($ziggy->toArray()['routes'])
+          ->filter(fn($route, $name) => str_starts_with($name, 'parent-portal'))
+          ->toArray();
+
+      $ziggy->toArray()['routes'] = $filteredRoutes;
+    @endphp
+    window.Ziggy = @json($ziggy);
   </script>
-  @routes
-  @vite(['resources/js/app.js', 'resources/css/app.css'])
+
+  @vite(['resources/js/modules/staff-portal/app.js', 'resources/css/app.css'])
   @inertiaHead
 </head>
 
 <body class="font-sans antialiased">
   @inertia
-
 </body>
 
 </html>

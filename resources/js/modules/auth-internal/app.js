@@ -10,7 +10,7 @@ import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
 import "@quasar/extras/material-symbols-outlined/material-symbols-outlined.css";
 import "@quasar/extras/fontawesome-v6/fontawesome-v6.css";
 import "quasar/src/css/index.sass";
-import { ZiggyVue } from '../../../../vendor/tightenco/ziggy';
+import { ZiggyVue } from '../../../../vendor/tightenco/ziggy/src/js';
 import { router } from "@inertiajs/vue3";
 import processFlashMessage from "@/helpers/flash-message";
 import MyLink from "@/components/MyLink.vue";
@@ -19,7 +19,6 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/id'; // Import the Indonesian locale
 // import i18n from './i18n';
 import GlobalPlugin from '@/plugins';
-
 
 dayjs.extend(relativeTime)
 // Set Indonesian as the global locale
