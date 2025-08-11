@@ -20,14 +20,14 @@ const showPassword = ref(false);
       <div class="column">
         <div class="row">
           <q-form class="q-gutter-md" @submit.prevent="submit">
-            <q-card square bordered class="q-pa-md shadow-1">
+            <q-card square bordered flat class="q-pa-md">
               <q-card-section class="text-center">
                 <div class="flex justify-center">
                   <q-avatar size="80px">
-                    <img src="/assets/img/app-logo.png" />
+                    <q-icon name="badge" />
                   </q-avatar>
                 </div>
-                <h5 class="q-my-sm">Login</h5>
+                <h5 class="q-my-sm">Login Staff</h5>
               </q-card-section>
               <q-card-section>
                 <q-input

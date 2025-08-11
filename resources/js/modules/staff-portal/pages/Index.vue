@@ -1,28 +1,28 @@
 <script setup>
 const apps = [
-  { label: "PPDB", icon: "school", route: "dummy-route" },
-  { label: "System", icon: "settings", route: "dummy-route" },
-  { label: "Akademik", icon: "menu_book", route: "dummy-route" },
-  { label: "Kesiswaan", icon: "group", route: "dummy-route" },
-  { label: "Absensi", icon: "event_available", route: "dummy-route" },
-  { label: "Keuangan", icon: "payments", route: "dummy-route" },
+  { label: "PPDB", icon: "school", url: route("dummy-route") },
+  { label: "System", icon: "settings", url: "dummy-route" },
+  { label: "Akademik", icon: "menu_book", url: "dummy-route" },
+  { label: "Kesiswaan", icon: "group", url: "dummy-route" },
+  { label: "Absensi", icon: "event_available", url: "dummy-route" },
+  { label: "Keuangan", icon: "payments", url: "dummy-route" },
 ];
 </script>
 
 <template>
   <guest-layout>
-    <q-page padding class="q-pa-md">
+    <q-page padding>
       <div
-        class="row q-col-gutter-md q-row-gutter-md justify-center"
+        class="row q-col-gutter-md justify-center"
         style="max-width: 800px; margin: auto"
       >
         <my-link
           v-for="app in apps"
           :key="app.label"
-          :href="route(app.route)"
-          class="col-3 app-icon-btn"
+          :href="app.url"
+          class="col col-xs-4 col-sm-3 col-md-2 app-icon-btn"
         >
-          <q-icon :name="app.icon" size="48px" class="q-mb-sm" />
+          <q-icon :name="app.icon" size="32px" class="q-mb-sm" />
           <div class="text-subtitle2">{{ app.label }}</div>
         </my-link>
       </div>
@@ -32,6 +32,7 @@ const apps = [
 
 <style scoped>
 .app-icon-btn {
+  color: #555 !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,11 +44,14 @@ const apps = [
   cursor: pointer;
   user-select: none;
   border-radius: 8px;
-  transition: background-color 0.2s;
+  transition: background-color 0.5s, color 0.5s;
+  padding: 12px; /* untuk memberi jarak internal agar seimbang */
 }
 
 .app-icon-btn:hover {
-  background-color: #f5f5f5;
+  background-color: #eee;
+  color: rgb(54, 158, 255) !important;
+  transition: background-color 0.5s, color 0.5s;
 }
 
 .app-icon-btn > div.text-subtitle2 {
