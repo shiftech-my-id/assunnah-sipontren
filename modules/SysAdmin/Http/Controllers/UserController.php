@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Http\Controllers\Admin;
+namespace Modules\SysAdmin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -17,13 +17,13 @@ class UserController extends Controller
 {
     public function index()
     {
-        return inertia('admin/user/Index');
+        return inertia('user/Index');
     }
 
     public function detail($id = 0)
     {
         // tambahkan jumlah client yang ditangani oleh user ini
-        return inertia('admin/user/Detail', [
+        return inertia('user/Detail', [
             'data' => User::with('parent')->findOrFail($id),
         ]);
     }
@@ -64,7 +64,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->id = null;
         $user->created_at = null;
-        return inertia('admin/user/Editor', [
+        return inertia('user/Editor', [
             'data' => $user,
             'users' => User::where('role', '<>', User::Role_Admin)
                 ->where('role', '<>', User::Role_BS)->orderBy('name')->get()
@@ -82,7 +82,7 @@ class UserController extends Controller
             return redirect(route('admin.user.index'))->with('warning', 'TIdak dapat mengubah akun anda sendiri.');
         }
 
-        return inertia('admin/user/Editor', [
+        return inertia('user/Editor', [
             'data' => $user,
             'users' => User::where('role', '<>', User::Role_Admin)
                 ->where('role', '<>', User::Role_BS)->orderBy('name')->get()

@@ -5,7 +5,7 @@ import { formateDatetime } from "@/helpers/datetime";
 
 const apps = [
   { label: "PPDB", icon: "school", url: route("ppdb.index") },
-  { label: "System", icon: "settings", url: "dummy-route" },
+  { label: "System", icon: "settings", url: route("sys-admin.index") },
   { label: "Akademik", icon: "menu_book", url: "dummy-route" },
   { label: "Kesiswaan", icon: "group", url: "dummy-route" },
   { label: "Absensi", icon: "event_available", url: "dummy-route" },
