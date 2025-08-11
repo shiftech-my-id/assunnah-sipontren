@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\AuthInternal\Http\Controllers;
+namespace Modules\StaffPortal\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -66,6 +66,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $this->_logout($request);
-        return redirect(route('auth-internal.auth.login'))->with('success', 'Anda telah logout.');
+        return redirect(route('staff-portal.auth.login'))->with('success', 'Anda telah logout.');
     }
 }

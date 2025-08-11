@@ -34,12 +34,9 @@ onMounted(() => {
 <template>
   <q-layout view="lHh LpR lFf">
     <q-header>
-      <q-toolbar class="bg-grey-1 text-black toolbar-scrolled">
+      <q-toolbar>
         <slot name="left-button"></slot>
-        <q-toolbar-title
-          :class="{ 'q-ml-sm': leftDrawerOpen }"
-          style="font-size: 18px"
-        >
+        <q-toolbar-title>
           <slot name="title">{{ $config.APP_NAME }}</slot>
         </q-toolbar-title>
         <slot name="right-button"></slot>
@@ -55,32 +52,3 @@ onMounted(() => {
     <slot name="footer"></slot>
   </q-layout>
 </template>
-
-<style>
-.profile-btn span.block {
-  text-align: left !important;
-  width: 100% !important;
-  margin-left: 10px !important;
-}
-</style>
-<style scoped>
-.q-toolbar {
-  border-bottom: 1px solid transparent;
-  /* Optional border line */
-}
-
-.toolbar-scrolled {
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-  /* Add shadow */
-  border-bottom: 1px solid #ddd;
-  /* Optional border line */
-}
-
-.profile-btn-active {
-  background-color: #ddd !important;
-}
-
-#profile-btn-popup .q-item--active {
-  color: inherit !important;
-}
-</style>

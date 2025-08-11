@@ -1,4 +1,8 @@
 <script setup>
+import { router } from "@inertiajs/vue3";
+import BaseLayout from "@/layouts/BaseLayout.vue";
+import { formateDatetime } from "@/helpers/datetime";
+
 const apps = [
   { label: "PPDB", icon: "school", url: route("ppdb.index") },
   { label: "System", icon: "settings", url: "dummy-route" },
@@ -10,12 +14,23 @@ const apps = [
 </script>
 
 <template>
-  <authenticated-layout>
+  <base-layout>
     <q-page>
-      <div style="max-width: 800px; margin: auto" class="q-pt-md">
-        <div class="text-center q-py-md">
-          Halo, {{ $page.props.auth.user.name }}
+      <div style="max-width: 800px; margin: auto">
+        <div class="row q-mb-lg q-pa-md">
+          <q-card class="col q-pa-sm">
+            <q-card-section>
+              <div class="text-center text-grey-8">
+                Halo, <b>{{ $page.props.auth.user.name }}</b
+                >. Selamat datang di <b>Portal {{ $config.APP_NAME }}</b
+                >. <br />Portal digitalisasi Pondok Pesantren <br />Hari ini
+                {{ formateDatetime(new Date(), "dddd") }},
+                {{ formateDatetime(new Date(), "DD MMMM YYYY - HH:mm:ss") }}
+              </div>
+            </q-card-section>
+          </q-card>
         </div>
+
         <div class="row q-col-gutter-md justify-center">
           <a
             v-for="app in apps"
@@ -26,10 +41,32 @@ const apps = [
             <q-icon :name="app.icon" size="32px" class="q-mb-sm" />
             <div class="text-subtitle2">{{ app.label }}</div>
           </a>
+          <a
+            @click="
+              router.visit(route('staff-portal.profile.index'), {
+                method: 'get',
+              })
+            "
+            class="col col-xs-4 col-sm-3 col-md-2 app-icon-btn"
+          >
+            <q-icon name="person" size="32px" class="q-mb-sm" />
+            <div class="text-subtitle2">Profil</div>
+          </a>
+          <a
+            @click="
+              router.visit(route('staff-portal.auth.logout'), {
+                method: 'post',
+              })
+            "
+            class="col col-xs-4 col-sm-3 col-md-2 app-icon-btn"
+          >
+            <q-icon name="logout" size="32px" class="q-mb-sm" />
+            <div class="text-subtitle2">Logout</div>
+          </a>
         </div>
       </div>
     </q-page>
-  </authenticated-layout>
+  </base-layout>
 </template>
 
 <style scoped>

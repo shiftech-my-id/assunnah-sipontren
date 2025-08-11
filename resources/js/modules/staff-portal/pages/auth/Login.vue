@@ -9,7 +9,8 @@ let form = useForm({
   remember: true,
 });
 
-const submit = () => handleSubmit({ form, url: "/auth-internal/login" });
+const submit = () =>
+  handleSubmit({ form, url: route("staff-portal.auth.login") });
 const showPassword = ref(false);
 </script>
 
