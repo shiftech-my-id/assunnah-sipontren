@@ -10,24 +10,26 @@ const apps = [
 </script>
 
 <template>
-  <guest-layout>
-    <q-page padding>
-      <div
-        class="row q-col-gutter-md justify-center"
-        style="max-width: 800px; margin: auto"
-      >
-        <my-link
-          v-for="app in apps"
-          :key="app.label"
-          :href="app.url"
-          class="col col-xs-4 col-sm-3 col-md-2 app-icon-btn"
-        >
-          <q-icon :name="app.icon" size="32px" class="q-mb-sm" />
-          <div class="text-subtitle2">{{ app.label }}</div>
-        </my-link>
+  <authenticated-layout>
+    <q-page>
+      <div style="max-width: 800px; margin: auto" class="q-pt-md">
+        <div class="text-center q-py-md">
+          Halo, {{ $page.props.auth.user.name }}
+        </div>
+        <div class="row q-col-gutter-md justify-center">
+          <my-link
+            v-for="app in apps"
+            :key="app.label"
+            :href="app.url"
+            class="col col-xs-4 col-sm-3 col-md-2 app-icon-btn"
+          >
+            <q-icon :name="app.icon" size="32px" class="q-mb-sm" />
+            <div class="text-subtitle2">{{ app.label }}</div>
+          </my-link>
+        </div>
       </div>
     </q-page>
-  </guest-layout>
+  </authenticated-layout>
 </template>
 
 <style scoped>

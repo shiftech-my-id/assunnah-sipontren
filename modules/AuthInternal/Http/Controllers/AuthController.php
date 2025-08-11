@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -56,7 +57,7 @@ class AuthController extends Controller
             $user->setLastLogin();
             $user->setLastActivity('Login');
             $request->session()->regenerate();
-            return redirect(route('staff-portal.dashboard'));
+            return Inertia::location(route('staff-portal.index'));
         }
 
         return redirect()->back()->withInput()->withErrors($validator);

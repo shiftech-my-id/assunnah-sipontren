@@ -24,10 +24,10 @@ const showPassword = ref(false);
               <q-card-section class="text-center">
                 <div class="flex justify-center">
                   <q-avatar size="80px">
-                    <q-icon name="badge" />
+                    <q-icon name="badge" color="primary" />
                   </q-avatar>
                 </div>
-                <h5 class="q-my-sm">Login Staff</h5>
+                <h6 class="q-my-sm text-primary">Login Staff</h6>
               </q-card-section>
               <q-card-section>
                 <q-input
