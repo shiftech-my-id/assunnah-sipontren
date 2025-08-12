@@ -32,7 +32,11 @@ Route::middleware(NonAuthenticated::class)->group(function () {
     // });
 });
 
-Route::get('/', [IndexController::class, 'index'])->name('dummy-route');
+Route::get('/', function () {
+    return 'It Works!';
+})->name('dummy-route');
+Route::redirect('/', '/staff-portal');
+//Route::get('/', [IndexController::class, 'index'])->name('dummy-route');
 
 Route::middleware([Auth::class])->group(function () {
     // Route::match(['get', 'post'], 'admin/auth/logout', [AuthController::class, 'logout'])->name('admin.auth.logout');
