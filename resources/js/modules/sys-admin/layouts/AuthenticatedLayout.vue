@@ -102,40 +102,7 @@ onMounted(() => {
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-separator />
-              <q-item
-                v-close-popup
-                class="subnav"
-                clickable
-                v-ripple
-                :active="$page.url.startsWith('/admin/settings/profile')"
-                @click="router.get(route('admin.profile.edit'))"
-              >
-                <q-item-section>
-                  <q-item-label
-                    ><q-icon name="manage_accounts" class="q-mr-sm" /> Kelola
-                    Akun</q-item-label
-                  >
-                </q-item-section>
-              </q-item>
-              <q-item
-                v-close-popup
-                class="subnav"
-                clickable
-                v-ripple
-                :active="
-                  $page.url.startsWith('/admin/settings/company-profile')
-                "
-                @click="router.get(route('admin.company-profile.edit'))"
-              >
-                <q-item-section>
-                  <q-item-label
-                    ><q-icon name="home_work" class="q-mr-sm" /> Profil
-                    Pondok</q-item-label
-                  >
-                </q-item-section>
-              </q-item>
-              <q-separator />
+
               <q-item
                 clickable
                 v-close-popup
@@ -170,151 +137,23 @@ onMounted(() => {
           <q-item
             clickable
             v-ripple
-            :active="$page.url.startsWith('/admin/dashboard')"
-            @click="router.get(route('admin.dashboard'))"
+            :active="$page.url.startsWith('/sys-admin/home')"
+            @click="router.get(route('sys-admin.home'))"
           >
             <q-item-section avatar>
-              <q-icon name="dashboard" />
+              <q-icon name="home" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Dashboard</q-item-label>
+              <q-item-label>Beranda</q-item-label>
             </q-item-section>
           </q-item>
+
           <q-item
-            v-if="$can('admin.report.index')"
+            v-if="$can('sys-admin.user.index')"
             clickable
             v-ripple
-            :active="$page.url.startsWith('/admin/reports')"
-            @click="router.get(route('admin.report.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="docs" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Laporan</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item
-            v-if="$can('admin.activity.index')"
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/activities')"
-            @click="router.get(route('admin.activity.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="event" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Realisasi Kegiatan</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            v-if="$can('admin.activity-plan.index')"
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/activity-plans')"
-            @click="router.get(route('admin.activity-plan.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="event_upcoming" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Rencana Kegiatan</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            v-if="$can('admin.demo-plot.index')"
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/demo-plots')"
-            @click="router.get(route('admin.demo-plot.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="assignment" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Demplot</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-if="$can('admin.activity-target.index')"
-            v-ripple
-            :active="$page.url.startsWith('/admin/activity-targets')"
-            @click="router.get(route('admin.activity-target.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="target" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Target Kegiatan</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/customers')"
-            v-if="$can('admin.customer.index')"
-            @click="router.get(route('admin.customer.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="storefront" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Client</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            clickable
-            v-if="$can('admin.product.index')"
-            v-ripple
-            :active="$page.url.startsWith('/admin/products')"
-            @click="router.get(route('admin.product.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="potted_plant" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Varietas Tanaman</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            v-if="$can('admin.product-category.index')"
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/product-categories')"
-            @click="router.get(route('admin.product-category.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="category" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Kategori Varietas</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            v-if="$can('admin.activity-type.index')"
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/activity-types')"
-            @click="router.get(route('admin.activity-type.index'))"
-          >
-            <q-item-section avatar>
-              <q-icon name="activity_zone" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Jenis Kegiatan (DGA)</q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item
-            v-if="$can('admin.user.index')"
-            clickable
-            v-ripple
-            :active="$page.url.startsWith('/admin/settings/users')"
-            @click="router.get(route('admin.user.index'))"
+            :active="$page.url.startsWith('/sys-admin/users')"
+            @click="router.get(route('sys-admin.user.index'))"
           >
             <q-item-section avatar>
               <q-icon name="group" />
@@ -324,24 +163,25 @@ onMounted(() => {
             </q-item-section>
           </q-item>
           <q-item
+            v-if="$can('sys-admin.user.index')"
             clickable
             v-ripple
-            :active="$page.url.startsWith('/admin/settings/profile')"
-            @click="router.get(route('admin.profile.edit'))"
+            :active="$page.url.startsWith('/sys-admin/user-groups')"
+            @click="router.get(route('sys-admin.user-group.index'))"
           >
             <q-item-section avatar>
-              <q-icon name="manage_accounts" />
+              <q-icon name="group" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Profil Saya</q-item-label>
+              <q-item-label>Grup Pengguna</q-item-label>
             </q-item-section>
           </q-item>
           <q-item
-            v-if="$can('admin.company-profile.edit')"
+            v-if="$can('sys-admin.company-profile.edit')"
             clickable
             v-ripple
-            :active="$page.url.startsWith('/admin/settings/company-profile')"
-            @click="router.get(route('admin.company-profile.edit'))"
+            :active="$page.url.startsWith('/sys-admin/company-profile')"
+            @click="router.get(route('sys-admin.company-profile.edit'))"
           >
             <q-item-section avatar>
               <q-icon name="apartment" />
@@ -352,11 +192,11 @@ onMounted(() => {
           </q-item>
           <q-item
             v-close-popup
-            v-if="$can('admin.db.menu')"
+            v-if="$can('sys-admin.db.menu')"
             clickable
             v-ripple
-            :active="$page.url.startsWith('/admin/settings/db')"
-            @click="router.get(route('admin.db.index'))"
+            :active="$page.url.startsWith('/sys-admin/db')"
+            @click="router.get(route('sys-admin.db.index'))"
           >
             <q-item-section avatar>
               <q-icon name="database" />
@@ -366,8 +206,6 @@ onMounted(() => {
             </q-item-section>
           </q-item>
 
-          <q-separator />
-
           <q-item
             clickable
             v-close-popup
@@ -375,10 +213,11 @@ onMounted(() => {
             style="color: inherit"
             :href="route('staff-portal.index')"
           >
+            <q-item-section avatar>
+              <q-icon name="apps" />
+            </q-item-section>
             <q-item-section>
-              <q-item-label
-                ><q-icon name="logout" class="q-mr-sm" />Keluar</q-item-label
-              >
+              <q-item-label>Portal Staff</q-item-label>
             </q-item-section>
           </q-item>
 

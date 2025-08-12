@@ -1,7 +1,7 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import BaseLayout from "@/layouts/BaseLayout.vue";
-import { formateDatetime } from "@/helpers/datetime";
+import { formatDatetime } from "@/helpers/formatter";
 
 const apps = [
   { label: "PPDB", icon: "school", url: route("ppdb.index") },
@@ -24,8 +24,8 @@ const apps = [
                 Halo, <b>{{ $page.props.auth.user.name }}</b
                 >. Selamat datang di <b>Portal {{ $config.APP_NAME }}</b
                 >. <br />Portal digitalisasi Pondok Pesantren <br />Hari ini
-                {{ formateDatetime(new Date(), "dddd") }},
-                {{ formateDatetime(new Date(), "DD MMMM YYYY - HH:mm:ss") }}
+                {{ formatDatetime(new Date(), "dddd") }},
+                {{ formatDatetime(new Date(), "DD MMMM YYYY - HH:mm:ss") }}
               </div>
             </q-card-section>
           </q-card>

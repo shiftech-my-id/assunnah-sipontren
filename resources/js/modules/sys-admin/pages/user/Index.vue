@@ -2,17 +2,11 @@
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { handleFetchItems, handleDelete } from "@/helpers/client-req-handler";
-import { create_options, getQueryParams } from "@/helpers/utils";
-import i18n from "@/i18n";
+import { getQueryParams } from "@/helpers/utils";
 import { useQuasar } from "quasar";
 import { usePageStorage } from "@/composables/usePageStorage";
 
-const storage = usePageStorage("users");
-
-const roles = [
-  { value: "all", label: "Semua" },
-  ...create_options(window.CONSTANTS.USER_ROLES),
-];
+const storage = usePageStorage("sys-sys-admin.users");
 
 const statuses = [
   { value: "all", label: "Semua" },
@@ -23,7 +17,7 @@ const statuses = [
 const page = usePage();
 const $q = useQuasar();
 const currentUser = page.props.auth.user;
-const title = i18n.global.t("users");
+const title = "Pengguna";
 const rows = ref([]);
 const loading = ref(true);
 const showFilter = ref(storage.get("show-filter", false));
@@ -56,14 +50,8 @@ const columns = [
     sortable: true,
   },
   { name: "name", label: "Nama", field: "name", align: "left", sortable: true },
-  { name: "role", label: "Role", field: "role", align: "center" },
-  {
-    name: "work_area",
-    label: "Area Kerja",
-    field: "work_area",
-    align: "center",
-  },
-  { name: "parent", label: "Supervisor", field: "parent", align: "center" },
+  { name: "role", label: "Grup", field: "role", align: "center" },
+
   { name: "action", align: "right" },
 ];
 
@@ -78,12 +66,12 @@ const fetchItems = (props = null) =>
     rows,
     loading,
     filter,
-    url: route("admin.user.data"),
+    url: route("sys-admin.user.data"),
   });
 
 const deleteItem = (row) =>
   handleDelete({
-    url: route("admin.user.delete", row.id),
+    url: route("sys-admin.user.delete", row.id),
     message: `Hapus pengguna ${row.username}?`,
     fetchItemsCallback: fetchItems,
     loading,
@@ -95,7 +83,8 @@ const computedColumns = computed(() =>
     : columns.filter((col) => ["username", "action"].includes(col.name))
 );
 
-const onRowClicked = (row) => router.get(route("admin.user.detail", row.id));
+const onRowClicked = (row) =>
+  router.get(route("sys-admin.user.detail", row.id));
 
 watch(filter, () => storage.set("filter", filter), { deep: true });
 watch(showFilter, () => storage.set("show-filter", showFilter.value), {
@@ -112,11 +101,11 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
     <template #title>{{ title }}</template>
     <template #right-button>
       <q-btn
-        v-if="$can('admin.user.add')"
+        v-if="$can('sys-admin.user.add')"
         icon="add"
         dense
         color="primary"
-        @click="router.get(route('admin.user.add'))"
+        @click="router.get(route('sys-admin.user.add'))"
       />
       <q-btn
         class="q-ml-sm"
@@ -125,51 +114,11 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
         dense
         @click="showFilter = !showFilter"
       />
-      <q-btn
-        icon="file_export"
-        dense
-        class="q-ml-sm"
-        color="grey"
-        style=""
-        @click.stop
-      >
-        <q-menu
-          anchor="bottom right"
-          self="top right"
-          transition-show="scale"
-          transition-hide="scale"
-        >
-          <q-list style="width: 200px">
-            <q-item
-              clickable
-              v-ripple
-              v-close-popup
-              :href="route('admin.user.export', { format: 'pdf' })"
-            >
-              <q-item-section avatar>
-                <q-icon name="picture_as_pdf" color="red-9" />
-              </q-item-section>
-              <q-item-section>Export PDF</q-item-section>
-            </q-item>
-            <q-item
-              clickable
-              v-ripple
-              v-close-popup
-              :href="route('admin.user.export', { format: 'excel' })"
-            >
-              <q-item-section avatar>
-                <q-icon name="csv" color="green-9" />
-              </q-item-section>
-              <q-item-section>Export Excel</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn>
     </template>
     <template #header v-if="showFilter">
       <q-toolbar class="filter-bar">
         <div class="row q-col-gutter-xs items-center q-pa-sm full-width">
-          <q-select
+          <!-- <q-select
             v-model="filter.role"
             class="custom-select col-xs-12 col-sm-2"
             :options="roles"
@@ -180,7 +129,7 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
             outlined
             style="min-width: 150px"
             @update:model-value="onFilterChange"
-          />
+          /> -->
           <q-select
             v-model="filter.status"
             class="custom-select col-xs-12 col-sm-2"
@@ -252,39 +201,26 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
                 {{ props.row.name }} ({{ props.row.username }})
               </div>
               <template v-if="!$q.screen.gt.sm">
-                <div class="elipsis" style="max-width: 200px">
+                <!-- <div class="elipsis" style="max-width: 200px">
                   <q-icon name="assignment_ind" /> Role:
                   <span>{{ $CONSTANTS.USER_ROLES[props.row.role] }}</span>
-                </div>
-                <div v-if="props.row.parent">
-                  <q-icon name="supervisor_account" /> Supervisor:
-                  {{ props.row.parent.name }}
-                </div>
-                <div v-if="props.row.work_area">
-                  <q-icon name="explore" /> Area Kerja:
-                  {{ props.row.work_area }}
-                </div>
+                </div> -->
               </template>
             </q-td>
             <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>
             <q-td key="role" :props="props" align="center">
-              <span>{{ $CONSTANTS.USER_ROLES[props.row.role] }}</span>
+              <!-- <span>{{ $CONSTANTS.USER_ROLES[props.row.role] }}</span> -->
             </q-td>
-            <q-td key="work_area" :props="props">
-              {{ props.row.work_area }}
-            </q-td>
-            <q-td key="parent" :props="props">
-              {{ props.row.parent ? props.row.parent.name : "" }}
-            </q-td>
+
             <q-td key="action" :props="props">
               <div
                 class="flex justify-end"
                 v-if="
-                  $can('admin.user.edit') ||
-                  $can('admin.user.delete') ||
-                  $can('admin.user.duplicate')
+                  $can('sys-admin.user.edit') ||
+                  $can('sys-admin.user.delete') ||
+                  $can('sys-admin.user.duplicate')
                 "
               >
                 <q-btn
@@ -302,13 +238,13 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
                   >
                     <q-list style="width: 200px">
                       <q-item
-                        v-if="$can('admin.user.duplicate')"
+                        v-if="$can('sys-admin.user.duplicate')"
                         clickable
                         v-ripple
                         v-close-popup
                         @click.stop="
                           router.get(
-                            route('admin.user.duplicate', props.row.id)
+                            route('sys-admin.user.duplicate', props.row.id)
                           )
                         "
                       >
@@ -318,23 +254,21 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
                         <q-item-section icon="copy"> Duplikat </q-item-section>
                       </q-item>
                       <q-item
-                        v-if="$can('admin.user.edit')"
+                        v-if="$can('sys-admin.user.edit')"
                         clickable
                         v-ripple
                         v-close-popup
                         @click.stop="
-                          router.get(route('admin.user.edit', props.row.id))
+                          router.get(route('sys-admin.user.edit', props.row.id))
                         "
                       >
                         <q-item-section avatar>
                           <q-icon name="edit" />
                         </q-item-section>
-                        <q-item-section icon="edit">{{
-                          $t("edit_user")
-                        }}</q-item-section>
+                        <q-item-section icon="edit">Edit</q-item-section>
                       </q-item>
                       <q-item
-                        v-if="$can('admin.user.delete')"
+                        v-if="$can('sys-admin.user.delete')"
                         @click.stop="deleteItem(props.row)"
                         clickable
                         v-ripple
@@ -343,7 +277,7 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
                         <q-item-section avatar>
                           <q-icon name="delete_forever" />
                         </q-item-section>
-                        <q-item-section>{{ $t("delete_user") }}</q-item-section>
+                        <q-item-section>Hapus</q-item-section>
                       </q-item>
                     </q-list>
                   </q-menu>

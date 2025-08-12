@@ -17,7 +17,7 @@ const title = "Rincian Pengguna";
           color="grey-7"
           flat
           rounded
-          @click="router.get(route('admin.user.index'))"
+          @click="router.get(route('sys-admin.user.index'))"
         />
       </div>
     </template>
@@ -28,9 +28,8 @@ const title = "Rincian Pengguna";
           icon="edit"
           dense
           color="primary"
-          :disable="$page.props.auth.user.role != $CONSTANTS.USER_ROLE_ADMIN"
           @click="
-            router.get(route('admin.user.edit', { id: page.props.data.id }))
+            router.get(route('sys-admin.user.edit', { id: page.props.data.id }))
           "
         />
       </div>
@@ -46,7 +45,7 @@ const title = "Rincian Pengguna";
               <table class="detail">
                 <tbody>
                   <tr>
-                    <td style="width: 125px">ID Pengguna</td>
+                    <td style="width: 125px">Username</td>
                     <td style="width: 1px">:</td>
                     <td>{{ page.props.data.username }}</td>
                   </tr>
@@ -55,33 +54,7 @@ const title = "Rincian Pengguna";
                     <td>:</td>
                     <td>{{ page.props.data.name }}</td>
                   </tr>
-                  <tr>
-                    <td>Hak Akses</td>
-                    <td>:</td>
-                    <td>{{ $CONSTANTS.USER_ROLES[page.props.data.role] }}</td>
-                  </tr>
-                  <tr v-if="page.props.data.parent">
-                    <td>Supervisor</td>
-                    <td>:</td>
-                    <td>
-                      <my-link
-                        :href="
-                          route('admin.user.detail', {
-                            id: page.props.data.parent.id,
-                          })
-                        "
-                      >
-                        {{ page.props.data.parent.name }} ({{
-                          $CONSTANTS.USER_ROLES[page.props.data.parent.role]
-                        }})
-                      </my-link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Area Kerja</td>
-                    <td>:</td>
-                    <td>{{ page.props.data.work_area }}</td>
-                  </tr>
+
                   <tr v-if="page.props.data.created_at">
                     <td>Dibuat</td>
                     <td>:</td>

@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -22,9 +24,8 @@ class UserController extends Controller
 
     public function detail($id = 0)
     {
-        // tambahkan jumlah client yang ditangani oleh user ini
         return inertia('user/Detail', [
-            'data' => User::with('parent')->findOrFail($id),
+            'data' => User::findOrFail($id),
         ]);
     }
 
@@ -34,13 +35,8 @@ class UserController extends Controller
         $orderType = $request->get('order_type', 'asc');
         $filter = $request->get('filter', []);
 
-        // tambahkan jumlah client yang ditangani oleh user ini
-        $q = User::with(['parent:id,username,name']);
+        $q = User::with([]);
         $q->orderBy($orderBy, $orderType);
-
-        if (!empty($filter['role'] && $filter['role'] != 'all')) {
-            $q->where('role', '=', $filter['role']);
-        }
 
         if (!empty($filter['status']) && ($filter['status'] == 'active' || $filter['status'] == 'inactive')) {
             $q->where('active', '=', $filter['status'] == 'active' ? true : false);
@@ -49,8 +45,7 @@ class UserController extends Controller
         if (!empty($filter['search'])) {
             $q->where(function ($query) use ($filter) {
                 $query->where('name', 'like', '%' . $filter['search'] . '%')
-                    ->orWhere('username', 'like', '%' . $filter['search'] . '%')
-                    ->orWhere('work_area', 'like', '%' . $filter['search'] . '%');
+                    ->orWhere('username', 'like', '%' . $filter['search'] . '%');
             });
         }
 
@@ -65,9 +60,7 @@ class UserController extends Controller
         $user->id = null;
         $user->created_at = null;
         return inertia('user/Editor', [
-            'data' => $user,
-            'users' => User::where('role', '<>', User::Role_Admin)
-                ->where('role', '<>', User::Role_BS)->orderBy('name')->get()
+            'data' => $user
         ]);
     }
 
@@ -79,57 +72,51 @@ class UserController extends Controller
             $user->active = true;
             $user->admin = true;
         } else if ($user == Auth::user()) {
-            return redirect(route('admin.user.index'))->with('warning', 'TIdak dapat mengubah akun anda sendiri.');
+            return redirect(route('sys-admin.user.index'))
+                ->with('warning', 'TIdak dapat mengubah akun anda sendiri.');
         }
 
         return inertia('user/Editor', [
             'data' => $user,
-            'users' => User::where('role', '<>', User::Role_Admin)
-                ->where('role', '<>', User::Role_BS)->orderBy('name')->get()
         ]);
     }
 
     public function save(Request $request)
     {
+        $isCreate = !$request->id;
+
         $rules = [
-            'name' => 'required|max:255',
-            'password' => 'required|min:5|max:40',
-            'role' => 'required',
-            'parent_id' => 'nullable|exists:users,id',
-            'work_area' => 'nullable|string|max:100',
+            'name'     => 'required|max:255',
+            'username' => [
+                'required',
+                'alpha_num',
+                'max:255',
+                Rule::unique('users', 'username')->ignore($request->id)
+            ],
+            'active'   => 'required|boolean',
         ];
 
-        $user = null;
-        $message = '';
-        $fields = ['name', 'username', 'role', 'active', 'work_area', 'parent_id'];
-        $password = $request->get('password');
-        if (!$request->id) {
-            // username harus unik
-            $rules['username'] = "required|alpha_num|max:255|unique:users,username,NULL,id";
-            $request->validate($rules);
-            $user = new User();
+        if ($isCreate || $request->filled('password')) {
+            $rules['password'] = 'required|min:5|max:40';
+        }
+
+        $validated = $request->validate($rules);
+        $user = $isCreate ? new User() : User::findOrFail($request->id);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
         } else {
-            // username harus unik, exclude id
-            $rules['username'] = "required|alpha_num|max:255|unique:users,username,{$request->id},id";
-            if (empty($request->get('password'))) {
-                // kalau password tidak diisi, skip validation dan jangan update password
-                unset($rules['password']);
-                unset($fields['password']);
-            }
-            $request->validate($rules);
-            $user = User::findOrFail($request->id);
+            unset($validated['password']);
         }
 
-        if (!empty($password)) {
-            $user->password = Hash::make($password);
-        }
-        $user->fill($request->only($fields));
-        $user->save();
+        $user->fill($validated)->save();
 
-        $message = "Pengguna {$user->username} telah " . ($request->id ? 'diperbarui' : 'ditambahkan') . '.';
+        $message = "Pengguna {$user->username} telah " . ($isCreate ? 'ditambahkan' : 'diperbarui') . '.';
 
-        return redirect(route('admin.user.index'))->with('success', $message);
+        return redirect(route('sys-admin.user.index'))
+            ->with('success', $message);
     }
+
 
     public function delete($id)
     {
@@ -146,61 +133,5 @@ class UserController extends Controller
         return response()->json([
             'message' => "Pengguna {$user->username} telah dihapus!"
         ]);
-    }
-
-    /**
-     * Mengekspor daftar pengguna ke dalam format PDF atau Excel.
-     */
-    public function export(Request $request)
-    {
-        $items = User::orderBy('name', 'asc')->get();
-        $title = 'Daftar Pengguna';
-        $filename = $title . ' - ' . env('APP_NAME') . Carbon::now()->format('dmY_His');
-
-        if ($request->get('format') == 'pdf') {
-            $pdf = Pdf::loadView('export.user-list-pdf', compact('items', 'title'));
-            return $pdf->download($filename . '.pdf');
-        }
-
-        if ($request->get('format') == 'excel') {
-            $spreadsheet = new Spreadsheet();
-            $sheet = $spreadsheet->getActiveSheet();
-
-            // Tambahkan header
-            $sheet->setCellValue('A1', 'No');
-            $sheet->setCellValue('B1', 'Username');
-            $sheet->setCellValue('C1', 'Nama Lengkap');
-            $sheet->setCellValue('D1', 'Role');
-            $sheet->setCellValue('E1', 'Atasan');
-            $sheet->setCellValue('F1', 'Area Kerja');
-            $sheet->setCellValue('G1', 'Status');
-
-            // Tambahkan data ke Excel
-            $row = 2;
-            foreach ($items as $num => $item) {
-                $sheet->setCellValue('A' . $row, $num + 1);
-                $sheet->setCellValue('B' . $row, $item->username);
-                $sheet->setCellValue('C' . $row, $item->name);
-                $sheet->setCellValue('D' . $row, User::Roles[$item->role]);
-                $sheet->setCellValue('E' . $row, $item->parent ? $item->parent->name : '');
-                $sheet->setCellValue('F' . $row, $item->work_area);
-                $sheet->setCellValue('G' . $row, $item->active ? 'Aktif' : 'Tidak Aktif');
-                $row++;
-            }
-
-            // Kirim ke memori tanpa menyimpan file
-            $response = new StreamedResponse(function () use ($spreadsheet) {
-                $writer = new Xlsx($spreadsheet);
-                $writer->save('php://output');
-            });
-
-            // Atur header response untuk download
-            $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '.xlsx"');
-
-            return $response;
-        }
-
-        return abort(400, 'Format tidak didukung');
     }
 }
