@@ -35,8 +35,8 @@ export default defineConfig({
       input: [
         "resources/css/app.css",
         "resources/js/app.js",
-        'resources/js/modules/authinternal/app.js',
-        'resources/js/modules/staffportal/app.js',
+        'resources/js/modules/staff-portal/app.js',
+        'resources/js/modules/sys-admin/app.js',
         'resources/js/modules/ppdb/app.js',
       ],
       refresh: true,
