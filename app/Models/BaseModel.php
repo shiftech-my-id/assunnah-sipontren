@@ -14,19 +14,19 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (Schema::hasColumn($model->getTable(), 'created_datetime')) {
+            if (Schema::hasColumn($model->getTable(), 'created_at')) {
                 if (Auth::id()) {
                     $model->created_datetime = current_datetime();
-                    $model->created_by_uid = Auth::id();
+                    $model->created_by = Auth::id();
                 }
             }
             return true;
         });
 
         static::updating(function ($model) {
-            if (Schema::hasColumn($model->getTable(), 'updated_datetime')) {
+            if (Schema::hasColumn($model->getTable(), 'updated_at')) {
                 $model->updated_datetime = current_datetime();
-                $model->updated_by_uid = Auth::id();
+                $model->updated_by = Auth::id();
             }
             return true;
         });

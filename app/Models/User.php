@@ -31,18 +31,16 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
-        'active',
         'password',
-        'role',
-        'work_area',
-        'parent_id',
+        'active',
+        'is_root',
         'last_login_datetime',
         'last_activity_description',
         'last_activity_datetime'
     ];
 
     protected $casts = [
-        'parent_id' => 'integer',
+        'is_root' => 'boolean',
         'active' => 'boolean',
         'last_login_datetime' => 'datetime',
         'last_activity_datetime' => 'datetime',
@@ -83,13 +81,8 @@ class User extends Authenticatable
         $this->save();
     }
 
-    public function parent()
+    public function groups()
     {
-        return $this->belongsTo(User::class, 'parent_id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(User::class, 'parent_id');
+        return $this->belongsToMany(UserGroup::class, 'users_has_groups');
     }
 }

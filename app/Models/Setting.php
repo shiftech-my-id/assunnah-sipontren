@@ -16,9 +16,6 @@ class Setting extends BaseModel
     protected $fillable = [
         'key',
         'value',
-        'lastmod_datetime',
-        'lastmod_user_id',
-        'lastmod_username',
     ];
 
     static $settings = [];
