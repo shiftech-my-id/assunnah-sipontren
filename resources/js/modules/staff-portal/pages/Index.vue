@@ -1,7 +1,8 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import BaseLayout from "@/layouts/BaseLayout.vue";
-import { formatDatetime } from "@/helpers/formatter";
+import { formatDateTime } from "@/helpers/formatter";
+import { useClock } from "@/composables/useClock";
 
 const apps = [
   { label: "PPDB", icon: "school", url: route("ppdb.index") },
@@ -13,6 +14,8 @@ const apps = [
   { label: "e-SPP", icon: "payments", url: "dummy-route" },
   { label: "Keuangan", icon: "payments", url: "dummy-route" },
 ];
+
+const { currentDateTime } = useClock();
 </script>
 
 <template>
@@ -26,8 +29,8 @@ const apps = [
                 Halo, <b>{{ $page.props.auth.user.name }}</b
                 >. Selamat datang di <b>Portal {{ $config.APP_NAME }}</b
                 >. <br />Portal digitalisasi Pondok Pesantren <br />Hari ini
-                {{ formatDatetime(new Date(), "dddd") }},
-                {{ formatDatetime(new Date(), "DD MMMM YYYY - HH:mm:ss") }}
+                {{ formatDateTime(currentDateTime, "dddd") }},
+                {{ formatDateTime(currentDateTime, "DD MMMM YYYY - HH:mm:ss") }}
               </div>
             </q-card-section>
           </q-card>
