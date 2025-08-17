@@ -1,4 +1,5 @@
 <script setup>
+import { formatDateTime, formatDateTimeFromNow } from "@/helpers/formatter";
 import { router, usePage } from "@inertiajs/vue3";
 
 const page = usePage();
@@ -54,29 +55,52 @@ const title = "Rincian Pengguna";
                     <td>:</td>
                     <td>{{ page.props.data.name }}</td>
                   </tr>
-
+                  <tr>
+                    <td>Jenis Akun</td>
+                    <td>:</td>
+                    <td>
+                      {{
+                        page.props.data.is_root
+                          ? "Super Administrator"
+                          : "Standar"
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Status</td>
+                    <td>:</td>
+                    <td>
+                      {{ page.props.data.active ? "Aktif" : "Non Aktif" }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="text-subtitle1 text-bold text-grey-9">
+                        Info Rekaman
+                      </div>
+                    </td>
+                  </tr>
                   <tr v-if="page.props.data.created_at">
                     <td>Dibuat</td>
                     <td>:</td>
                     <td>
-                      {{ $dayjs(page.props.data.created_at).fromNow() }} -
-                      {{
-                        $dayjs(page.props.data.created_at).format(
-                          "DD MMMM YY HH:mm:ss"
-                        )
-                      }}
+                      {{ formatDateTimeFromNow(page.props.data.created_at) }} -
+                      {{ formatDateTime(page.props.data.created_at) }}
                     </td>
                   </tr>
                   <tr v-if="page.props.data.updated_at">
                     <td>Diperbarui</td>
                     <td>:</td>
                     <td>
-                      {{ $dayjs(page.props.data.updated_at).fromNow() }} -
-                      {{
-                        $dayjs(page.props.data.updated_at).format(
-                          "DD MMMM YY HH:mm:ss"
-                        )
-                      }}
+                      {{ formatDateTimeFromNow(page.props.data.updated_at) }} -
+                      {{ formatDateTime(page.props.data.updated_at) }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="text-subtitle1 text-bold text-grey-9">
+                        Info Aktifitas
+                      </div>
                     </td>
                   </tr>
                   <tr>
@@ -85,13 +109,13 @@ const title = "Rincian Pengguna";
                     <td>
                       <template v-if="page.props.data.last_login_datetime">
                         {{
-                          $dayjs(page.props.data.last_login_datetime).fromNow()
+                          formatDateTimeFromNow(
+                            page.props.data.last_login_datetime
+                          )
                         }}
                         -
                         {{
-                          $dayjs(page.props.data.last_login_datetime).format(
-                            "DD MMMM YY HH:mm:ss"
-                          )
+                          formatDateTime(page.props.data.last_login_datetime)
                         }}
                       </template>
                       <template v-else> Belum pernah login </template>
@@ -102,13 +126,13 @@ const title = "Rincian Pengguna";
                     <td>:</td>
                     <td>
                       {{
-                        $dayjs(page.props.data.last_activity_datetime).fromNow()
+                        formatDateTimeFromNow(
+                          page.props.data.last_activity_datetime
+                        )
                       }}
                       -
                       {{
-                        $dayjs(page.props.data.last_activity_datetime).format(
-                          "DD MMMM YY HH:mm:ss"
-                        )
+                        formatDateTime(page.props.data.last_activity_datetime)
                       }}
                       <br />Jenis aktifitas:
                       {{ page.props.data.last_activity_description }}

@@ -1,5 +1,4 @@
 import { usePage } from "@inertiajs/vue3";
-import dayjs from 'dayjs';
 
 export const getQueryParams = (...args) => {
   const page = usePage();

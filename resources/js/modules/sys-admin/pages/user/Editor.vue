@@ -1,8 +1,8 @@
 <script setup>
 import { handleSubmit } from "@/helpers/client-req-handler";
 import { validateUsername } from "@/helpers/validations";
-
-import { router, useForm, usePage } from "@inertiajs/vue3";
+import StandardCheckBox from "@/components/StandardCheckBox.vue";
+import { useForm, usePage } from "@inertiajs/vue3";
 
 const page = usePage();
 const title = !!page.props.data.id ? "Edit Pengguna" : "Tambah Pengguna";
@@ -11,6 +11,7 @@ const form = useForm({
   name: page.props.data.name,
   username: page.props.data.username,
   password: "",
+  is_root: !!page.props.data.is_root,
   active: !!page.props.data.active,
 });
 
@@ -43,18 +44,6 @@ const submit = () => handleSubmit({ form, url: route("sys-admin.user.save") });
             <q-card-section class="q-pt-none">
               <input type="hidden" name="id" v-model="form.id" />
               <q-input
-                autofocus
-                v-model.trim="form.name"
-                label="Nama"
-                lazy-rules
-                :error="!!form.errors.name"
-                :disable="form.processing"
-                :error-message="form.errors.name"
-                :rules="[
-                  (val) => (val && val.length > 0) || 'Nama harus diisi.',
-                ]"
-              />
-              <q-input
                 v-model.trim="form.username"
                 type="text"
                 label="Username"
@@ -67,7 +56,23 @@ const submit = () => handleSubmit({ form, url: route("sys-admin.user.save") });
                     (val && val.length > 0) || 'ID Pengguna harus diisi.',
                   (val) => validateUsername(val) || 'ID Pengguna tidak valid.',
                 ]"
+                hide-bottom-space
               />
+
+              <q-input
+                autofocus
+                v-model.trim="form.name"
+                label="Nama"
+                lazy-rules
+                :error="!!form.errors.name"
+                :disable="form.processing"
+                :error-message="form.errors.name"
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Nama harus diisi.',
+                ]"
+                hide-bottom-space
+              />
+
               <q-input
                 v-model="form.password"
                 type="password"
@@ -76,6 +81,7 @@ const submit = () => handleSubmit({ form, url: route("sys-admin.user.save") });
                 :disable="form.processing"
                 :error="!!form.errors.password"
                 :error-message="form.errors.password"
+                hide-bottom-space
               />
               <p v-if="form.id" class="text-subtitle text-grey-8 q-pt-none">
                 Isi jika ingin mengatur ulang sandi.
@@ -94,14 +100,16 @@ const submit = () => handleSubmit({ form, url: route("sys-admin.user.save") });
                 :error-message="form.errors.role"
               >
               </q-select> -->
-              <div style="margin-left: -10px">
-                <q-checkbox
-                  class="full-width"
-                  v-model="form.active"
-                  :disable="form.processing"
-                  label="Aktif"
-                />
-              </div>
+              <StandardCheckBox
+                v-model="form.is_root"
+                :disable="form.processing"
+                label="Super Administrator"
+              />
+              <StandardCheckBox
+                v-model="form.active"
+                :disable="form.processing"
+                label="Aktif"
+              />
             </q-card-section>
             <q-card-section class="q-gutter-sm">
               <q-btn

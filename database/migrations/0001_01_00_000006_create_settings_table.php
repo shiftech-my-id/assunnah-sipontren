@@ -14,12 +14,7 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->string('key')->primary();
             $table->text('value');
-
-            $table->datetime('created_at')->nullable();
-            $table->datetime('updated_at')->nullable();
-
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->createdUpdatedDeletedTimestamps();
         });
     }
 

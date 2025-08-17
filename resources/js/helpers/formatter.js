@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
 
+export function formatDateTimeFromNow(val)
+{
+  return dayjs(val).fromNow();
+}
+
 export function formatDateTime(val, fmt = 'DD/MM/YYYY hh:mm:ss', locale = 'id-ID') {
   let date;
   if (val instanceof Date) {

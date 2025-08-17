@@ -20,11 +20,16 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_root')->default(false);
             $table->boolean('active')->default(false);
+
             $table->datetime('last_login_datetime')->nullable();
             $table->string('last_activity_description')->default('');
             $table->datetime('last_activity_datetime')->nullable();
+            
             $table->rememberToken();
-            $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->createdUpdatedDeletedTimestamps();            
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

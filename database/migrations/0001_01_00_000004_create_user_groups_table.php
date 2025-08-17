@@ -15,12 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('description')->nullable();
-
-            $table->datetime('created_at')->nullable();
-            $table->datetime('updated_at')->nullable();
-
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->createdUpdatedDeletedTimestamps();
         });
     }
 

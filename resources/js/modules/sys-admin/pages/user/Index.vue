@@ -101,7 +101,7 @@ watch(pagination, () => storage.set("pagination", pagination.value), {
     <template #title>{{ title }}</template>
     <template #right-button>
       <q-btn
-        v-if="$can('sys-admin.user.add')"
+      v-if="$can('sys-admin.user.add')"
         icon="add"
         dense
         color="primary"
