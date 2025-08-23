@@ -8,7 +8,7 @@ const apps = [
   { label: "PPDB", icon: "school", url: route("ppdb.index") },
   { label: "System", icon: "settings", url: route("sys-admin.index") },
   { label: "Akademik", icon: "menu_book", url: "dummy-route" },
-  { label: "Santri", icon: "group", url: "dummy-route" },
+  { label: "Santri", icon: "group", url: route("student-registry.index") },
   { label: "Presensi Santri", icon: "event_available", url: "dummy-route" },
   { label: "Presensi Staff", icon: "event_available", url: "dummy-route" },
   { label: "e-SPP", icon: "payments", url: "dummy-route" },

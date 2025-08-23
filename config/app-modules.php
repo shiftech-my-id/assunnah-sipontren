@@ -11,6 +11,11 @@ return [
         'display_name' => 'System Administration',
         'prefix' => 'sys-admin',
     ],
+    'student-registry' => [
+        'name' => 'student-registry',
+        'display_name' => 'Kesantrian',
+        'prefix' => 'student-registry',
+    ],
     'ppdb' => [
         'name' => 'ppdb',
         'display_name' => 'PPDB Online',

@@ -38,6 +38,7 @@ export default defineConfig({
         'resources/js/modules/staff-portal/app.js',
         'resources/js/modules/sys-admin/app.js',
         'resources/js/modules/ppdb/app.js',
+        'resources/js/modules/student-registry/app.js',
       ],
       refresh: true,
     }),
